@@ -1,0 +1,6 @@
+[
+	{"name": "basic.html", "size": 1234, "mime": "text/html", "modified": 123456789},
+	{"name": "basic.json", "size": 123, "mime": "application/json", "modified": 123456788},
+	{"name": "advanced.html", "size": 1234, "mime": "text/html", "modified": 123456789},
+	{"name": "advanced.json", "size": 123, "mime": "application/json", "modified": 123456788}
+]

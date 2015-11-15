@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Basic Example | jQuery file browser plugin</title>
+
+		<meta name="description" content="A plugin to make file browsing pleasent in a browser."/>
+
+		<script src="js/jquery.min.js"></script>
+
+		<link rel="stylesheet" href="index.css"/>
+		<script src="js/jsbrowser.js"></script>
+
+		<script>
+			jQuery(function ($) {
+				$('#browser').jsbrowser({
+					'url': 'basic.json',
+					'type': 'list',
+					'selector': {
+						'deselect': '#browser',
+						'icon': '#browserIcon',
+						'list': '#browserList',
+						'listContent': 'tbody',
+						'listItem': '#browserListItem'
+					}
+				});
+
+				$('#browser').on('selectionChange', function (e) {
+					//console.log(e);
+				});
+
+				$('select').on('change', function () {
+					$('#browser').jsbrowser('type', $(this).val().toLowerCase());
+				});
+			});
+		</script>
+	</head>
+	<body>
+
+		<template id="browserIcon">
+			<div style="display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc;">
+				<img src=""/>
+				<h1 data-jsbrowser="name"></h1>
+			</div>
+		</template>
+
+		<template id="browserList">
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Size</th>
+						<th>Mime</th>
+						<th>Modified</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</template>
+		<template id="browserListItem">
+			<tr>
+				<td>
+					<img src=""/>
+					<span data-jsbrowser="name"></span>
+				</td>
+				<td>
+					<span data-jsbrowser="size"></span>
+				</td>
+				<td>
+					<span data-jsbrowser="mime"></span>
+				</td>
+				<td>
+					<span data-jsbrowser="modified"></span>
+				</td>
+			</table>
+		</template>
+
+		<h1>jsbrowser - Basic Example</h1>
+
+		<select>
+			<option>Icon</option>
+			<option selected>List</option>
+		</select>
+
+		<div id="browser"></div>
+	</body>
+</html>
