@@ -1,6 +1,26 @@
 [
-	{"name": "basic.html", "size": 1234, "mime": "text/html", "modified": 123456789},
-	{"name": "basic.json", "size": 123, "mime": "application/json", "modified": 123456788},
-	{"name": "advanced.html", "size": 1234, "mime": "text/html", "modified": 123456789},
-	{"name": "advanced.json", "size": 123, "mime": "application/json", "modified": 123456788}
+	{
+		"name": "basic.html",
+		"size": 1234,
+		"mime": "text\/html",
+		"modified": 1447543530
+	},
+	{
+		"name": "basic.json",
+		"size": 123,
+		"mime": "application\/json",
+		"modified": 1447543531
+	},
+	{
+		"name": "advanced.html",
+		"size": 1234,
+		"mime": "text\/html",
+		"modified": 1447543532
+	},
+	{
+		"name": "advanced.json",
+		"size": 123,
+		"mime": "application\/json",
+		"modified": 1447543533
+	}
 ]

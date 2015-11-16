@@ -2,7 +2,8 @@
 
 	var defaults = {
 		url: false,
-		type: 'icon'
+		type: 'icon',
+		selectedClass: 'selected'
 	};
 	var settings;
 	var data = [];
@@ -15,9 +16,9 @@
 			browser = $(this);
 			$(settings.selector.deselect).on('mousedown', function (e) {
 				if ($(e.target).closest(':data(jsbrowser-item)').length === 0) {
-					var selected = browser.find('.selected');
+					var selected = browser.find('.' + settings.selectedClass);
 					if (selected.length > 0) {
-						selected.removeClass('selected');
+						selected.removeClass(settings.selectedClass);
 						browser.trigger('selectionChange');
 					}
 				}
@@ -37,7 +38,7 @@
 		},
 		getSelected: function () {
 			var ret = [];
-			browser.find('.selected').each(function () {
+			browser.find('.' + settings.selectedClass).each(function () {
 				ret.push($(this).index());
 			});
 			return ret;
@@ -47,14 +48,14 @@
 				e.preventDefault();
 
 				if (e.shiftKey === true) {
-					if ((browser.find(':data(jsbrowser-item).selected').length === 1) && (!browser.find(':data(jsbrowser-item).selected').is(item))) {
+					if ((browser.find(':data(jsbrowser-item).' + settings.selectedClass).length === 1) && (!browser.find(':data(jsbrowser-item).' + settings.selectedClass).is(item))) {
 
 						var started = false;
 						var finishedAfter = false;
 						var finished = false;
 
 						browser.find(':data(jsbrowser-item)').each(function () {
-							if (($(this).is(item)) || ($(this).hasClass('selected'))) {
+							if (($(this).is(item)) || ($(this).hasClass(settings.selectedClass))) {
 								if (started === false) {
 									started = true;
 								}
@@ -63,7 +64,7 @@
 								}
 							}
 							if ((started === true) && (finished === false)) {
-								$(this).addClass('selected');
+								$(this).addClass(settings.selectedClass);
 							}
 							if (finishedAfter === true) {
 								finished = true;
@@ -74,25 +75,25 @@
 					}
 				}
 				else if (e.ctrlKey === true) {
-					if (!item.hasClass('selected')) {
-						item.addClass('selected');
+					if (!item.hasClass(settings.selectedClass)) {
+						item.addClass(settings.selectedClass);
 					}
 					else {
-						item.removeClass('selected');
+						item.removeClass(settings.selectedClass);
 					}
 					browser.trigger('selectionChange');
 				}
 				else {
-					var items = browser.find(':data(jsbrowser-item).selected').not(item);
+					var items = browser.find(':data(jsbrowser-item).' + settings.selectedClass).not(item);
 					if (items.length > 0) {
-						items.removeClass('selected');
+						items.removeClass(settings.selectedClass);
 						browser.trigger('selectionChange');
-						if (!item.hasClass('selected')) {
-							item.addClass('selected');
+						if (!item.hasClass(settings.selectedClass)) {
+							item.addClass(settings.selectedClass);
 						}
 					}
-					else if (!item.hasClass('selected')) {
-						item.addClass('selected');
+					else if (!item.hasClass(settings.selectedClass)) {
+						item.addClass(settings.selectedClass);
 						browser.trigger('selectionChange');
 					}
 
@@ -121,7 +122,7 @@
 					item.data('jsbrowser-item', true);
 					methods.addEvents(item);
 					if (selected === true) {
-						item.addClass('selected');
+						item.addClass(settings.selectedClass);
 					}
 
 					browser.append(item);
@@ -151,7 +152,7 @@
 					item.data('jsbrowser-item', true);
 					methods.addEvents(item);
 					if (selected === true) {
-						item.addClass('selected');
+						item.addClass(settings.selectedClass);
 					}
 
 					browserList.append(item);
