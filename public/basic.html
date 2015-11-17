@@ -30,6 +30,34 @@
 					//console.log(e);
 				});
 
+
+				$('#browser').on('rendered', function (e) {
+					var $root = $('#browser').find(':data(jsbrowser-root)');
+					if ($root.length === 0) {
+						$root = $('#browser');
+					}
+					var $items = $('#browser').find(':data(jsbrowser-item)');
+					var type = 'name';
+					$items.sort(function (a, b) {
+						if ((type === 'size') || (type === 'modified')) {
+							var an = parseInt($(a).data('jsbrowser')[type]);
+							an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 0 : an);
+							var bn = parseInt($(b).data('jsbrowser')[type]);
+							bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 0 : bn);
+
+							return an - bn;
+						}
+						else {
+							var an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(a).data('jsbrowser')[type];
+							var bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(b).data('jsbrowser')[type];
+
+							return an.localeCompare(bn);
+						}
+					});
+
+					$items.detach().appendTo($root);
+				});
+
 				$('select').on('change', function () {
 					$('#browser').jsbrowser('type', $(this).val().toLowerCase());
 				});
@@ -83,6 +111,19 @@
 			<option>Icon</option>
 			<option selected>List</option>
 		</select>
+
+		Order by:
+		<input type="radio" name="order" id="orderName" checked></input>
+		<label for="orderName">Name</label>
+		<input type="radio" name="order" id="orderSize"></input>
+		<label for="orderSize">Size</label>
+		<input type="radio" name="order" id="orderMime"></input>
+		<label for="orderMime">Mime</label>
+		<input type="radio" name="order" id="orderModified"></input>
+		<label for="orderModified">Modified</label>
+
+		<input type="checkbox" name="reverse" id="orderReverse"></input>
+		<label for="orderReverse">Reverse</label>
 
 		<div id="browser"></div>
 	</body>

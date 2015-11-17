@@ -3,7 +3,8 @@
 	var defaults = {
 		url: false,
 		type: 'icon',
-		selectedClass: 'selected'
+		selectedClass: 'selected',
+		order: 'name'
 	};
 	var settings;
 	var data = [];
@@ -103,16 +104,20 @@
 		render: function () {
 			browser.html('');
 
+			browser.removeData('jsbrowser-root');
+
 			var populate = function (item, data) {
-				item.find('[data-jsbrowser="name"]').html(data.name);
-				item.find('[data-jsbrowser="size"]').html(data.size);
-				item.find('[data-jsbrowser="mime"]').html(data.mime);
-				item.find('[data-jsbrowser="modified"]').html(data.modified);
+				for (i in data) {
+					item.find('[data-jsbrowser="' + i + '"]').html(data[i]);
+				}
 				return item;
 			}
 
 			if (settings.type === 'icon') {
 				var iconTemplate = $(settings.selector.icon).html();
+
+
+				browser.data('jsbrowser-root', true);
 
 				var makeIcon = function (data, selected) {
 					var item = $(iconTemplate);
@@ -160,6 +165,7 @@
 
 				browser.append($(listTemplate));
 				browserList = $(settings.selector.listContent);
+				browserList.data('jsbrowser-root', true);
 				for (var i in data) {
 					if (selected.indexOf(parseInt(i)) > -1) {
 						makeListIcon(data[i], true);
@@ -170,6 +176,7 @@
 				}
 			}
 
+			browser.trigger('rendered');
 
 		}
 	};
