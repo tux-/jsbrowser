@@ -82,6 +82,12 @@
 				$('select').on('change', function () {
 					$('#browser').jsbrowser('type', $(this).val().toLowerCase());
 				});
+				$('button#selectAll').on('click', function () {
+					$('#browser').jsbrowser('select', 'all');
+				});
+				$('button#selectNone').on('click', function () {
+					$('#browser').jsbrowser('select', 'none');
+				});
 
 				$('input[name="order"]').on('change', function () {
 					browserSort($(this).val(), $('input[name="reverse"]').is(':checked'));
@@ -152,6 +158,9 @@
 
 		<input type="checkbox" name="reverse" id="orderReverse"></input>
 		<label for="orderReverse">Reverse</label>
+
+		<button id="selectAll">Select all</button>
+		<button id="selectNone">Select none</button>
 
 		<div id="browser"></div>
 	</body>

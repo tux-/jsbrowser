@@ -44,6 +44,14 @@
 			});
 			return ret;
 		},
+		select: function (arg) {
+			if (arg === 'all') {
+				browser.find(':data(jsbrowser-item)').addClass(settings.selectedClass);
+			}
+			if (arg === 'none') {
+				browser.find(':data(jsbrowser-item)').removeClass(settings.selectedClass);
+			}
+		},
 		addEvents: function (item) {
 			item.on('mousedown', function (e) {
 				e.preventDefault();
