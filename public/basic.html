@@ -13,6 +13,7 @@
 
 		<script>
 			jQuery(function ($) {
+
 				$('#browser').jsbrowser({
 					'url': 'basic.php',
 					'type': 'list',
@@ -30,36 +31,63 @@
 					//console.log(e);
 				});
 
-
-				$('#browser').on('rendered', function (e) {
+				var browserSort = function (type, reverse) {
 					var $root = $('#browser').find(':data(jsbrowser-root)');
 					if ($root.length === 0) {
 						$root = $('#browser');
 					}
 					var $items = $('#browser').find(':data(jsbrowser-item)');
-					var type = 'name';
 					$items.sort(function (a, b) {
 						if ((type === 'size') || (type === 'modified')) {
-							var an = parseInt($(a).data('jsbrowser')[type]);
-							an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 0 : an);
-							var bn = parseInt($(b).data('jsbrowser')[type]);
-							bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 0 : bn);
+							if (reverse) {
+								var an = parseInt($(a).data('jsbrowser')[type]);
+								an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 10000000000000000 : an);
+								var bn = parseInt($(b).data('jsbrowser')[type]);
+								bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 10000000000000000 : bn);
 
-							return an - bn;
+								return bn - an;
+							}
+							else {
+								var an = parseInt($(a).data('jsbrowser')[type]);
+								an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 0 : an);
+								var bn = parseInt($(b).data('jsbrowser')[type]);
+								bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 0 : bn);
+
+								return an - bn;
+							}
 						}
 						else {
-							var an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(a).data('jsbrowser')[type];
-							var bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(b).data('jsbrowser')[type];
+							if (reverse) {
+								var an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 'b' : 'a') + '-' + $(a).data('jsbrowser')[type];
+								var bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 'b' : 'a') + '-' + $(b).data('jsbrowser')[type];
 
-							return an.localeCompare(bn);
+								return bn.localeCompare(an);
+							}
+							else {
+								var an = ($(a).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(a).data('jsbrowser')[type];
+								var bn = ($(b).data('jsbrowser')['mime'] === 'directory' ? 'a' : 'b') + '-' + $(b).data('jsbrowser')[type];
+
+								return an.localeCompare(bn);
+							}
 						}
 					});
 
 					$items.detach().appendTo($root);
+				};
+
+				$('#browser').on('rendered', function () {
+					browserSort($('input[name="order"]:checked').val(), $('input[name="reverse"]').is(':checked'));
 				});
 
 				$('select').on('change', function () {
 					$('#browser').jsbrowser('type', $(this).val().toLowerCase());
+				});
+
+				$('input[name="order"]').on('change', function () {
+					browserSort($(this).val(), $('input[name="reverse"]').is(':checked'));
+				});
+				$('input[name="reverse"]').on('change', function () {
+					browserSort($('input[name="order"]:checked').val(), $('input[name="reverse"]').is(':checked'));
 				});
 			});
 		</script>
@@ -113,13 +141,13 @@
 		</select>
 
 		Order by:
-		<input type="radio" name="order" id="orderName" checked></input>
+		<input type="radio" name="order" id="orderName" value="name" checked></input>
 		<label for="orderName">Name</label>
-		<input type="radio" name="order" id="orderSize"></input>
+		<input type="radio" name="order" id="orderSize" value="size"></input>
 		<label for="orderSize">Size</label>
-		<input type="radio" name="order" id="orderMime"></input>
+		<input type="radio" name="order" id="orderMime" value="mime"></input>
 		<label for="orderMime">Mime</label>
-		<input type="radio" name="order" id="orderModified"></input>
+		<input type="radio" name="order" id="orderModified" value="modified"></input>
 		<label for="orderModified">Modified</label>
 
 		<input type="checkbox" name="reverse" id="orderReverse"></input>
