@@ -40,7 +40,7 @@
 		getSelected: function () {
 			var ret = [];
 			browser.find('.' + settings.selectedClass).each(function () {
-				ret.push($(this).index());
+				ret.push($(this).data('jsbrowser-item'));
 			});
 			return ret;
 		},
@@ -119,12 +119,12 @@
 
 				browser.data('jsbrowser-root', true);
 
-				var makeIcon = function (data, selected) {
+				var makeIcon = function (data, selected, id) {
 					var item = $(iconTemplate);
 
 					item = populate(item, data);
 					item.data('jsbrowser', data);
-					item.data('jsbrowser-item', true);
+					item.data('jsbrowser-item', id);
 					methods.addEvents(item);
 					if (selected === true) {
 						item.addClass(settings.selectedClass);
@@ -134,11 +134,11 @@
 				};
 
 				for (var i in data) {
-					if (selected.indexOf(parseInt(i)) > -1) {
-						makeIcon(data[i], true);
+					if (selected.indexOf(i) > -1) {
+						makeIcon(data[i], true, i);
 					}
 					else {
-						makeIcon(data[i], false);
+						makeIcon(data[i], false, i);
 					}
 				}
 			}
@@ -149,12 +149,12 @@
 				var listTemplate = $(settings.selector.list).html();
 				var listItemTemplate = $(settings.selector.listItem).html();
 
-				var makeListIcon = function (data, selected) {
+				var makeListIcon = function (data, selected, id) {
 					var item = $(listItemTemplate);
 
 					item = populate(item, data);
 					item.data('jsbrowser', data);
-					item.data('jsbrowser-item', true);
+					item.data('jsbrowser-item', id);
 					methods.addEvents(item);
 					if (selected === true) {
 						item.addClass(settings.selectedClass);
@@ -167,11 +167,11 @@
 				browserList = $(settings.selector.listContent);
 				browserList.data('jsbrowser-root', true);
 				for (var i in data) {
-					if (selected.indexOf(parseInt(i)) > -1) {
-						makeListIcon(data[i], true);
+					if (selected.indexOf(i) > -1) {
+						makeListIcon(data[i], true, i);
 					}
 					else {
-						makeListIcon(data[i], false);
+						makeListIcon(data[i], false, i);
 					}
 				}
 			}
